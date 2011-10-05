@@ -1,0 +1,81 @@
+<html><head><title>Menno Ipsum</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="jqueryui/js/jquery-ui-1.8.16.custom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="jqueryui/css/ui-lightness/jquery-ui-1.8.16.custom.css" /> 
+<link rel="stylesheet" type="text/css" href="main.css" /> 
+<script type="text/javascript">
+$(document).ready(function(){
+	loadMennoIpsum(4,9,5);
+	$("#paragraphs").slider({value:4,min:1,max:10,step:1,slide: function(event,ui){
+		$("#paragraphs-amount").html( "Paragraphs: " + ui.value );
+		loadMennoIpsum(ui.value,$("#sentences").slider("values",1),$("#sentences").slider("values",0));
+		}});
+	$("#paragraphs-amount").html("Paragraphs: "+$("#paragraphs").slider("value"));
+	
+	$("#sentences").slider({range: true,values:[5,9],min:1,max:10,step:1,slide: function(event,ui){
+		$("#sentences-amount").html( "Sentences: " + ui.values[0]+"-"+ui.values[1] );
+		autoMennoIpsum();
+	}});
+	$("#sentences-amount").html($("#sentences").slider("values",0)+"-"+$("#sentences").slider("values",1)+" sentences");
+	
+	$('button').button().click(function(){
+		paras = $("#paragraphs").slider("value");
+		sentence_max = $("#sentences").slider("values",1);
+		sentence_min = $("#sentences").slider("values",0);
+		loadMennoIpsum(paras,sentence_max,sentence_min);
+	});
+	
+	function autoMennoIpsum(){
+		paras = $("#paragraphs").slider("value");
+		sentence_max = $("#sentences").slider("values",1);
+		sentence_min = $("#sentences").slider("values",0);
+		loadMennoIpsum(paras,sentence_max,sentence_min);
+		}
+
+	function loadMennoIpsum(paras,sentence_max,sentence_min){
+		var url='generator.php?p='+paras+'&smax='+sentence_max+'&smin='+sentence_min;
+		$.ajax({
+		   type: "GET",
+		   url: url,
+		   dataType: "html",
+		   success: function(result){
+	     $("#results").html(result);
+		  }
+		 });
+	
+	}
+});
+</script>
+
+</head><body>
+<h1>Menno Ipsum</h1>
+<div id="controls">
+<div id="paragraphs-amount">Paragraphs: </div>
+<div id="paragraphs"> </div>
+<div id="sentences-amount">Sentences: </div>
+<div id="sentences"> </div>
+</div>
+<div id="results"> </div>
+
+
+
+
+
+
+
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=1498163; 
+var sc_invisible=1; 
+var sc_security="4ffeccfc"; 
+</script>
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script>
+<noscript><div class="statcounter"><a title="custom
+counter" href="http://statcounter.com/free-hit-counter/"
+target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/1498163/0/4ffeccfc/1/"
+alt="custom counter"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+</body>
