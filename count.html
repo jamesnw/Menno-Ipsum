@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html><head><title>Word Counter</title>
+<meta charset="utf-8" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="jqueryui/js/jquery-ui-1.8.16.custom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="jqueryui/css/ui-lightness/jquery-ui-1.8.16.custom.css" /> 
+<link rel="stylesheet" type="text/css" href="main.css" /> 
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#button').button().click(function(){	
+		//Get Text
+		site = $('#text').val();
+		$.getJSON("scrape.php",{s: site}, function(text){
+			processWords(text)
+			});
+	});
+});
+
+function processWords(text){
+	tab = text;
+	$('#results').html(' ');
+	$.each(text, function(word, val){
+		$('#results').append("<p>"+word+": "+val+"</p>");
+	});
+}
+
+
+
+
+
+
+</script>
+
+</head><body>
+<h1>Word Counter</h1>
+<div id="controls">Site: <input id="text" size=30> </input><br />
+<submit id="button">Submit</submit></div>
+<div id="results"> </div>
+
+
+
+
+
+
+
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=1498163; 
+var sc_invisible=1; 
+var sc_security="4ffeccfc"; 
+</script>
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script>
+<noscript><div class="statcounter"><a title="custom
+counter" href="http://statcounter.com/free-hit-counter/"
+target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/1498163/0/4ffeccfc/1/"
+alt="custom counter"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+</body>
+</html>
