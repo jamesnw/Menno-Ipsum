@@ -16,6 +16,59 @@ if(ISSET($_GET['smin'])){
 	$sentence_min = $_GET['smin'];}
 	else {$sentence_min = 5;}	
 
+//echoRandSentence('pfw', $words, $phrases, $fillers);
+/* Takes a structure String (e.g. "pfw") and returns an appropriate, random sentence. */
+function echoRandSentence($structure, $words, $phrases, $fillers) {
+	// Break the structure String into an Array.
+	$structure = preg_split('//', $structure, -1, PREG_SPLIT_NO_EMPTY);
+
+	// Count the number of words, phrases and fillers needed.
+	$rand_words = 0;
+	$rand_phrases = 0;
+	$rand_fillers = 0;
+	foreach ($structure as $entry) {
+		switch($entry) {
+			case 'w': $rand_words++; break;
+			case 'p': $rand_phrases++; break;
+			case 'f': $rand_fillers++; break;
+		}
+	}
+
+	// Get a random list of words, phrases and fillers.
+	switch($rand_words) {
+		case 0: $rand_words = array(); break;
+		case 1: $rand_words = array(array_rand($words, $rand_words)); break;
+		default: $rand_words = array_rand($words, $rand_words); break;
+	}
+	switch($rand_phrases) {
+		case 0: $rand_phrases = array(); break;
+		case 1: $rand_phrases = array(array_rand($phrases, $rand_phrases)); break;
+		default: $rand_phrases = array_rand($phrases, $rand_phrases); break;
+	}
+	switch($rand_fillers) {
+		case 0: $rand_fillers = array(); break;
+		case 1: $rand_fillers = array(array_rand($fillers, $rand_fillers)); break;
+		default: $rand_fillers = array_rand($fillers, $rand_fillers); break;
+	}
+
+	// Combine the random list of words, phrases and fillers together based on
+	// the original, given $structure.
+	$sentence = array();
+	foreach ($structure as $entry) {
+		switch($entry) {
+			case 'w': $sentence[] = rtrim($words[array_pop($rand_words)]); break;
+			case 'p': $sentence[] = rtrim($phrases[array_pop($rand_phrases)]); break;
+			case 'f': $sentence[] = rtrim($fillers[array_pop($rand_fillers)]); break;
+		}
+	}
+
+	// Print out a nice English-formatted sentence.
+	$sentence[0] = ucfirst($sentence[0]);
+	echo "<p>";
+	echo implode(' ', $sentence).'. ';
+	echo "</p>\n";
+}
+
 //generate paragraphs
 for($i=1;$i<=$paras;$i++) {
 		//generate sentences
